@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    api 'org.sagebionetworks.bridge:rest-client:0.15.6', {
+    api 'org.sagebionetworks.bridge:rest-client:0.15.23', {
         exclude group: 'joda-time', module: 'joda-time'
     }
     api 'org.sagebionetworks:BridgeDataUploadUtils:0.2.3', {
@@ -50,6 +50,12 @@ dependencies {
     api 'nl.littlerobots.rxlint:rxlint:1.6.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    def room_version = "1.1.0"
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+
+    implementation 'com.birbit:android-priority-jobqueue:2.0.1'
 
     implementation 'com.google.dagger:dagger-android:2.14.1'
     implementation 'com.google.dagger:dagger-android-support:2.14.1'
