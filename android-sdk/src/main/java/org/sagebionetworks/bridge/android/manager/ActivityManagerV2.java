@@ -37,6 +37,7 @@ import rx.Completable;
 import rx.Observable;
 
 import org.sagebionetworks.bridge.android.jobqueue.GetActivitiesByDateJob;
+import org.sagebionetworks.bridge.android.jobqueue.UpdateActivitiesJob;
 import org.sagebionetworks.bridge.android.persistence.PersistenceUtils;
 import org.sagebionetworks.bridge.android.persistence.ScheduledActivityDAO;
 import org.sagebionetworks.bridge.android.persistence.ScheduledActivityEntity;
@@ -148,9 +149,8 @@ public class ActivityManagerV2 {
                     PersistenceUtils::serverActivityToDatabaseActivity);
             scheduledActivityDAO.writeScheduledActivities(Iterables.toArray(entityList,
                     ScheduledActivityEntity.class));
-        }).mergeWith(Completable.fromAction(() -> {
-
-        }));
+        }).mergeWith(Completable.fromAction(() -> jobManager.addJobInBackground(
+                new UpdateActivitiesJob(activityList))));
     }
 
     public Completable updateRemoteScheduledActivities(
